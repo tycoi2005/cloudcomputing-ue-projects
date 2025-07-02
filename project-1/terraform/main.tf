@@ -29,3 +29,40 @@ module "s3_cf_policy_primary" {
   bucket_arn                  = module.s3_website.static_website_arn
   cloudfront_distribution_arn = module.cloud_front.cloudfront_distribution_arn
 }
+
+
+# BACKEND
+
+resource "aws_security_group" "alb_sg" {
+  name        = "alb-lambda-sg"
+  description = "Security group for ALB to Lambda"
+  vpc_id      = var.vpc_id
+
+  ingress {
+    description = "Allow HTTP from anywhere"
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = {
+    Name = "alb-lambda-sg"
+  }
+}
+module "lambda_alb_backend" {
+  source            = "./modules/lambda-alb-backend"
+  vpc_id            = var.vpc_id
+  subnet_ids        = var.public_subnet_ids
+  #security_group_id = module.network.public_sg_id
+  security_group_id = aws_security_group.alb_sg.id
+}
+
+
