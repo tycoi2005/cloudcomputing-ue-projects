@@ -48,10 +48,31 @@ resource "aws_lb_listener" "http_listener" {
   protocol          = "HTTP"
 
   default_action {
+    type = "fixed-response"
+    fixed_response {
+      content_type = "text/plain"
+      message_body = "Method Not Allowed"
+      status_code  = "405"
+    }
+  }
+}
+
+resource "aws_lb_listener_rule" "allow_post" {
+  listener_arn = aws_lb_listener.http_listener.arn
+  priority     = 10
+
+  action {
     type             = "forward"
     target_group_arn = aws_lb_target_group.tg.arn
   }
+
+  condition {
+    http_request_method {
+      values = ["POST"]
+    }
+  }
 }
+
 
 resource "aws_lambda_permission" "allow_alb" {
   statement_id  = "AllowExecutionFromALB"
