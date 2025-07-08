@@ -1,4 +1,9 @@
 
+## Prepare
+
+Edit ~/.aws/credentials and put aws credentials in
+
+Install terraform https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli
 
 ## Project 1
 
