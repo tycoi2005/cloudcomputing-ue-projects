@@ -27,6 +27,17 @@
 #  source_code_hash = filebase64sha256("${path.module}/lambda.zip")
 #}
 
+resource "aws_lambda_function" "api_handler" {
+  function_name = "api-backend"
+  runtime       = "python3.10"
+  role          = "arn:aws:iam::637423528848:role/LabRole"
+  handler       = "index.lambda_handler"
+  filename      = "${path.module}/lambda.zip"
+
+  source_code_hash = filebase64sha256("${path.module}/lambda.zip")
+}
+
+
 resource "aws_lb" "alb" {
   name               = "lambda-alb"
   load_balancer_type = "application"
@@ -82,15 +93,6 @@ resource "aws_lambda_permission" "allow_alb" {
   source_arn    = aws_lb_target_group.tg.arn
 }
 
-resource "aws_lambda_function" "api_handler" {
-  function_name = "api-backend"
-  runtime       = "python3.10"
-  role          = "arn:aws:iam::637423528848:role/LabRole"
-  handler       = "index.lambda_handler"
-  filename      = "${path.module}/lambda.zip"
-
-  source_code_hash = filebase64sha256("${path.module}/lambda.zip")
-}
 
 resource "aws_lb_target_group_attachment" "lambda_attachment" {
   target_group_arn = aws_lb_target_group.tg.arn

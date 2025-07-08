@@ -1,4 +1,13 @@
+module "network" {
+  source              = "./modules/network"
+  naming_prefix       = var.naming_prefix
+  vpc_cidr            = "10.0.0.0/16"
+  public_subnet_cidrs = ["10.0.1.0/24", "10.0.2.0/24"]
+}
+
+
 # Tutorial: https://dev.to/chinmay13/aws-networking-with-terraform-deploying-a-cloudfront-distribution-for-s3-static-website-2jbf
+
 ####################################################
 # Create S3 Static Website
 ####################################################
@@ -36,7 +45,7 @@ module "s3_cf_policy_primary" {
 resource "aws_security_group" "alb_sg" {
   name        = "alb-lambda-sg"
   description = "Security group for ALB to Lambda"
-  vpc_id      = var.vpc_id
+  vpc_id      = module.network.vpc_id
 
   ingress {
     description = "Allow HTTP from anywhere"
@@ -59,8 +68,8 @@ resource "aws_security_group" "alb_sg" {
 }
 module "lambda_alb_backend" {
   source            = "./modules/lambda-alb-backend"
-  vpc_id            = var.vpc_id
-  subnet_ids        = var.public_subnet_ids
+  vpc_id            = module.network.vpc_id
+  subnet_ids        = module.network.public_subnet_ids
   #security_group_id = module.network.public_sg_id
   security_group_id = aws_security_group.alb_sg.id
 }

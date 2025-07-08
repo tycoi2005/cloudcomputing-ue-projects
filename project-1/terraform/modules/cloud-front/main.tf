@@ -44,8 +44,9 @@ resource "aws_cloudfront_distribution" "cf-dist" {
 
   restrictions {
     geo_restriction {
-      restriction_type = "whitelist"
-      locations        = ["DE", "US", "JP"] # Allow only these countries to access the content
+      restriction_type = "none"
+      #      restriction_type = "whitelist"
+      #      locations        = ["DE", "US", "JP"] # Allow only these countries to access the content
     }
   }
 
