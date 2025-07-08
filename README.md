@@ -7,6 +7,11 @@ Install terraform https://developer.hashicorp.com/terraform/tutorials/aws-get-st
 
 ## Project 1
 
+### Architecture
+
+![ Architecutre Project 1](./project-1/architectures/Project1CloudComputing.jpg)
+
+### Terraform
 $ cd project-1/terraform
 
 ### Init
