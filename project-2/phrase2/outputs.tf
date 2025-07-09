@@ -57,3 +57,13 @@ output "web_sg_id" {
 output "aws_region" {
   value = var.aws_region
 }
+
+output "latest_ubuntu_ami_id" {
+  description = "The ID of the Ubuntu AMI used for the EC2 instance."
+  value       = data.aws_ami.ubuntu.id
+}
+
+output "ec2_key_name" {
+  description = "The key name used for the EC2 instance."
+  value       = var.key_name
+}
