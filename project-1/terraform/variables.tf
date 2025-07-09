@@ -7,19 +7,19 @@ variable "aws_region" {
 variable "bucket_name_primary" {
   type        = string
   description = "Name of the S3 Bucket"
-  default     = "cf-s3-static-banana-primary"
+  default     = "cf-s3-static-primary"
 }
 
 variable "bucket_name_failover" {
   type        = string
   description = "Name of the S3 Bucket"
-  default     = "cf-s3-static-banana-failover"
+  default     = "cf-s3-static-failover"
 }
 
 variable "company" {
   type        = string
   description = "Company name for resource tagging"
-  default     = "CT"
+  default     = "Banana"
 }
 
 variable "project" {
@@ -31,7 +31,7 @@ variable "project" {
 variable "naming_prefix" {
   type        = string
   description = "Naming prefix for all resources."
-  default     = "Demo"
+  default     = "tf-pj1-"
 }
 
 variable "environment" {
@@ -41,6 +41,7 @@ variable "environment" {
 }
 
 variable "instance_key" {
-  default = "WorkshopKeyPair"
+  type        = string
+  description = "EC2 Key Pair name"
+  default     = "WorkshopKeyPair"
 }
-

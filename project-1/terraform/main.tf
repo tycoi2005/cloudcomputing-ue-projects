@@ -13,7 +13,7 @@ module "network" {
 ####################################################
 module "s3_website" {
   source        = "./modules/s3-static-website"
-  bucket_name   = var.bucket_name_primary
+  bucket_name   = "${var.naming_prefix}${var.bucket_name_primary}"
   source_files  = "../build"
   common_tags   = local.common_tags
   naming_prefix = local.naming_prefix
@@ -72,6 +72,7 @@ module "lambda_alb_backend" {
   subnet_ids        = module.network.public_subnet_ids
   #security_group_id = module.network.public_sg_id
   security_group_id = aws_security_group.alb_sg.id
+  naming_prefix = local.naming_prefix
 }
 
 

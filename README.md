@@ -27,9 +27,13 @@ $ terraform apply -auto-approve
 
 Open frontend
 
+[Cloudfront URL: http://d2vky7lfbvwa5o.cloudfront.net](http://d2vky7lfbvwa5o.cloudfront.net)
+
 Check backend
 
-$ curl -X POST http://lambda-alb-654582969.us-east-1.elb.amazonaws.com   -H "Content-Type: application/json"   -d '{"name":"Arya", "age":16}'
+[Link backend http://tf-pj1-dev-lambda-alb-1377999723.us-east-1.elb.amazonaws.com](http://tf-pj1-dev-lambda-alb-1377999723.us-east-1.elb.amazonaws.com)
+
+$ curl -X POST http://tf-pj1-dev-lambda-alb-1377999723.us-east-1.elb.amazonaws.com -H "Content-Type: application/json"   -d '{"name":"Arya", "age":16}'
 
 ### Destroy all
 

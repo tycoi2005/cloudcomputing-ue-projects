@@ -5,5 +5,5 @@ locals {
     environment = var.environment
   }
 
-  naming_prefix = "${var.naming_prefix}-${var.environment}"
+  naming_prefix = "${var.naming_prefix}${var.environment}"
 }
