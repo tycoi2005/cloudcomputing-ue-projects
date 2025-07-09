@@ -31,6 +31,17 @@ resource "aws_security_group" "db_sg" {
     security_groups = [data.terraform_remote_state.phase2.outputs.web_sg_id]
   }
 
+    # Ingress Rule 2: Allow traffic from the Public Subnet (where Cloud9 lives)
+  ingress {
+    from_port   = 3306
+    to_port     = 3306
+    protocol    = "tcp"
+    # Note: It's better to get this CIDR from a Phase 2 output,
+    # but we know from your code it's 10.0.1.0/24.
+    cidr_blocks = ["10.0.1.0/24"]
+    description = "Allow traffic from the public subnet for Cloud9 access"
+  }
+
   # Egress can remain open as it's in a private subnet
   egress {
     from_port   = 0
@@ -179,9 +190,9 @@ resource "aws_cloud9_environment_ec2" "dev" {
   name                         = "${var.naming_prefix}app-dev-env"
   instance_type                = "t3.micro"
   subnet_id                    = data.terraform_remote_state.phase2.outputs.public_subnet_ids[0]
-  automatic_stop_time_minutes = 30
-  image_id                     = "amazonlinux-2-x86_64"
 
+  automatic_stop_time_minutes = 0 # Disable automatic stop
+  image_id                     = "amazonlinux-2-x86_64"
   tags = {
     Environment = "dev"
     Project     = "WebApp-Phase3"

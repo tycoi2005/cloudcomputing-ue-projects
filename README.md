@@ -71,3 +71,64 @@ Test/add serveral student
 ```
 $ terraform apply -auto-approve
 ```
+
+### Migration db
+
+#### Add Lab Profile for cloud9
+
+Install Session Manager Plugin
+
+- macos
+```
+brew install --cask session-manager-plugin
+```
+
+linux:
+```
+curl "https://s3.amazonaws.com/session-manager-downloads/plugin/latest/ubuntu_64bit/session-manager-plugin.deb" -o "session-manager-plugin.deb"
+sudo dpkg -i session-manager-plugin.deb
+
+```
+
+```
+aws ec2 associate-iam-instance-profile \
+  --instance-id i-xxxxxxx \
+  --iam-instance-profile Name=LabInstanceProfile
+aws ec2 reboot-instances --instance-ids i-xxx
+
+```
+
+### Connect to cloud9
+
+```
+aws ssm start-session --target i-xxx
+```
+
+- Dump database
+```
+sh-4.2$ mysqldump -h 10.0.1.33 -u nodeapp -p --databases STUDENTS > data.sql
+Enter password:
+sh-4.2$ cat data.sql
+/*M!999999\- enable the sandbox mode */
+-- MariaDB dump 10.19  Distrib 10.5.29-MariaDB, for Linux (x86_64)
+--
+-- Host: 10.0.1.33    Database: STUDENTS
+-- ------------------------------------------------------
+-- Server version	8.0.42-0ubuntu0.20.04.1
+```
+
+- Import database
+```
+$ mysql -h tf-pj2-ph3-app-db.c3ousaeg01v3.us-east-1.rds.amazonaws.com -u nodeapp -p  STUDENTS < data.sql
+Enter password:
+```
+
+### Load test
+
+```
+npm install -g loadtest
+```
+
+```
+loadtest --rps 1000  -c 500 -k <<ELB URL>>
+```

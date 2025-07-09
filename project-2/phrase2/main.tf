@@ -74,6 +74,14 @@ resource "aws_security_group" "web_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
+  # Internal MySQL access (within VPC)
+  ingress {
+    from_port   = 3306
+    to_port     = 3306
+    protocol    = "tcp"
+    cidr_blocks = ["10.0.0.0/16"] # Adjust if your VPC uses a different CIDR
+  }
+
   egress {
     from_port   = 0
     to_port     = 0
