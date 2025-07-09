@@ -67,3 +67,7 @@ Open website:
 Test/add serveral student
 
 ## Project 2 - Phrase 3
+
+```
+$ terraform apply -auto-approve
+```

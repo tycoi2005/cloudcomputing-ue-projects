@@ -20,3 +20,9 @@ variable "naming_prefix" {
   description = "Naming prefix for all resources."
   default     = "tf-pj2-ph3-"
 }
+
+variable "lab_instance_profile_name" {
+  description = "The name of the IAM instance profile (e.g., LabInstanceProfile) that allows access to Secrets Manager."
+  type        = string
+  default     = "LabInstanceProfile" #
+}
