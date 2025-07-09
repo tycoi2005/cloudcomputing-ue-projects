@@ -7,3 +7,9 @@ variable "key_name" {
   type        = string
   default = "vockey"
 }
+
+variable "naming_prefix" {
+  type        = string
+  description = "Naming prefix for all resources."
+  default     = "tf-pj2-ph2-"
+}

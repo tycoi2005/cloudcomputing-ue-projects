@@ -9,7 +9,7 @@ resource "aws_vpc" "main" {
   enable_dns_hostnames = true
 
   tags = {
-    Name = "main-vpc"
+    Name = "${var.naming_prefix}main-vpc"
   }
 }
 
@@ -20,7 +20,7 @@ resource "aws_subnet" "public" {
   map_public_ip_on_launch = true
 
   tags = {
-    Name = "public-subnet"
+    Name = "${var.naming_prefix}public-subnet"
   }
 }
 
@@ -29,7 +29,7 @@ resource "aws_internet_gateway" "igw" {
   vpc_id = aws_vpc.main.id
 
   tags = {
-    Name = "main-igw"
+    Name = "${var.naming_prefix}main-igw"
   }
 }
 
@@ -43,11 +43,12 @@ resource "aws_route_table" "public" {
   }
 
   tags = {
-    Name = "public-rt"
+    Name = "${var.naming_prefix}public-rt"
   }
 }
 
 # 5. Associate Route Table with Subnet
+# Note: aws_route_table_association does not have a Name tag.
 resource "aws_route_table_association" "a" {
   subnet_id      = aws_subnet.public.id
   route_table_id = aws_route_table.public.id
@@ -55,7 +56,7 @@ resource "aws_route_table_association" "a" {
 
 # 6. Security Group
 resource "aws_security_group" "web_sg" {
-  name        = "web-sg"
+  name        = "${var.naming_prefix}web-sg" # The actual name attribute
   description = "Allow SSH and HTTP"
   vpc_id      = aws_vpc.main.id
 
@@ -81,7 +82,7 @@ resource "aws_security_group" "web_sg" {
   }
 
   tags = {
-    Name = "web-sg"
+    Name = "${var.naming_prefix}web-sg" # The Name tag for visibility in the console
   }
 }
 
@@ -101,7 +102,7 @@ resource "aws_instance" "web" {
               EOF
 
   tags = {
-    Name = "web-server"
+    Name = "${var.naming_prefix}web-server"
   }
 }
 
@@ -122,34 +123,32 @@ data "aws_ami" "ubuntu" {
   owners = ["099720109477"] # Canonical
 }
 
-
-# 9. Private Subnet (example in the same AZ as public subnet)
+# 9. Private Subnet
 resource "aws_subnet" "private_1" {
-  vpc_id            = aws_vpc.main.id
-  cidr_block        = "10.0.2.0/24"
+  vpc_id                  = aws_vpc.main.id
+  cidr_block              = "10.0.2.0/24"
   map_public_ip_on_launch = false
 
   tags = {
-    Name = "private-subnet"
+    Name = "${var.naming_prefix}private-subnet-1"
   }
 }
 
 resource "aws_subnet" "private_2" {
-  vpc_id            = aws_vpc.main.id
-  cidr_block        = "10.0.3.0/24"
-  availability_zone = "us-east-1b"  # second AZ
+  vpc_id                  = aws_vpc.main.id
+  cidr_block              = "10.0.3.0/24"
+  availability_zone       = "us-east-1b" # Consider making this dynamic for better reusability
   map_public_ip_on_launch = false
 
   tags = {
-    Name = "private-subnet-2"
+    Name = "${var.naming_prefix}private-subnet-2"
   }
 }
 
-
-# 10. NAT Gateway (needed if private subnet needs internet access)
+# 10. NAT Gateway
 resource "aws_eip" "nat" {
   tags = {
-    Name = "nat-eip"
+    Name = "${var.naming_prefix}nat-eip"
   }
 }
 
@@ -158,7 +157,7 @@ resource "aws_nat_gateway" "natgw" {
   subnet_id     = aws_subnet.public.id
 
   tags = {
-    Name = "nat-gateway"
+    Name = "${var.naming_prefix}nat-gateway"
   }
 
   depends_on = [aws_internet_gateway.igw]
@@ -174,7 +173,7 @@ resource "aws_route_table" "private" {
   }
 
   tags = {
-    Name = "private-rt"
+    Name = "${var.naming_prefix}private-rt"
   }
 }
 

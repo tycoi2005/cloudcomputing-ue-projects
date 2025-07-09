@@ -43,4 +43,10 @@ $ terraform destroy -auto-approve
 
 $ terraform apply -auto-approve
 
+Open website:
+
+[Web IP: http://52.21.170.174](http://52.21.170.174)
+
+Test/add serveral student
+
 ##

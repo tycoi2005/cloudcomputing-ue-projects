@@ -14,3 +14,9 @@ variable "db_name" {
     default = "STUDENTS"
     description = "Database name"
 }
+
+variable "naming_prefix" {
+  type        = string
+  description = "Naming prefix for all resources."
+  default     = "tf-pj2-ph3-"
+}

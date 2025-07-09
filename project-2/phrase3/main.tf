@@ -17,14 +17,14 @@ provider "aws" {
 
 # === DB Subnet Group ===
 resource "aws_db_subnet_group" "main" {
-  name       = "main-db-subnet-group"
+  name       = "${var.naming_prefix}main-db-subnet-group"
   subnet_ids = [
     data.terraform_remote_state.phase2.outputs.private_subnet_id_1,
     data.terraform_remote_state.phase2.outputs.private_subnet_id_2,
   ]
 
   tags = {
-    Name = "main-db-subnet-group"
+    Name = "${var.naming_prefix}main-db-subnet-group"
   }
 }
 
@@ -45,13 +45,13 @@ resource "aws_db_instance" "mysql" {
   deletion_protection    = false
 
   tags = {
-    Name = "app-db"
+    Name = "${var.naming_prefix}app-db"
   }
 }
 
 # === Secrets Manager ===
 resource "aws_secretsmanager_secret" "db_credentials" {
-  name = "app-db-secret"
+  name = "${var.naming_prefix}app-db-secret"
 }
 
 resource "aws_secretsmanager_secret_version" "db_credentials_version" {
@@ -66,7 +66,7 @@ resource "aws_secretsmanager_secret_version" "db_credentials_version" {
 
 # === Cloud9 Environment ===
 resource "aws_cloud9_environment_ec2" "dev" {
-  name                         = "app-dev-env"
+  name                         = "${var.naming_prefix}app-dev-env"
   instance_type               = "t3.micro"
   subnet_id                   = data.terraform_remote_state.phase2.outputs.public_subnet_ids[0]
   automatic_stop_time_minutes = 30
