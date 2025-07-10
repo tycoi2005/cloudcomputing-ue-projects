@@ -24,6 +24,17 @@ resource "aws_subnet" "public" {
   }
 }
 
+resource "aws_subnet" "public_2" {
+  vpc_id                  = aws_vpc.main.id
+  cidr_block              = "10.0.4.0/24" # A new, unused CIDR block
+  map_public_ip_on_launch = true
+  availability_zone       = "us-east-1b" # A different AZ from the first public subnet
+
+  tags = {
+    Name = "${var.naming_prefix}public-subnet-2"
+  }
+}
+
 # 3. Internet Gateway
 resource "aws_internet_gateway" "igw" {
   vpc_id = aws_vpc.main.id
@@ -47,10 +58,19 @@ resource "aws_route_table" "public" {
   }
 }
 
+# In phrase2/main.tf, add another association for the new public subnet
+
+
+
 # 5. Associate Route Table with Subnet
 # Note: aws_route_table_association does not have a Name tag.
 resource "aws_route_table_association" "a" {
   subnet_id      = aws_subnet.public.id
+  route_table_id = aws_route_table.public.id
+}
+
+resource "aws_route_table_association" "public_assoc_2" {
+  subnet_id      = aws_subnet.public_2.id
   route_table_id = aws_route_table.public.id
 }
 

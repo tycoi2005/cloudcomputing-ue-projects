@@ -18,8 +18,9 @@ output "vpc_id" {
 # Public Subnet(s)
 output "public_subnet_ids" {
   description = "Public subnet IDs for EC2 or Cloud9"
-  value       = aws_subnet.public[*].id
+  value       = [aws_subnet.public.id, aws_subnet.public_2.id]
 }
+
 
 output "private_subnet_id_1" {
   description = "Private subnet ID in AZ 1"
