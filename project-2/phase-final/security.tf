@@ -54,8 +54,17 @@ resource "aws_security_group" "cloud9_sg" {
   name   = "${var.naming_prefix}cloud9-sg"
   vpc_id = aws_vpc.main.id
 
+
   # AWS manages ingress/egress for Cloud9 SSH connections,
   # but we can add egress rules if needed.
+  ingress {
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"] # Allows access from any IP address
+    description = "Allow SSH for Cloud9 connection"
+  }
+
   egress {
     from_port   = 0
     to_port     = 0
@@ -86,6 +95,15 @@ resource "aws_security_group" "db_sg" {
     protocol        = "tcp"
     security_groups = [aws_security_group.cloud9_sg.id]
   }
+
+  ingress {
+    description = "Allow MySQL from Cloud9 subnet"
+    from_port   = 3306
+    to_port     = 3306
+    protocol    = "tcp"
+    cidr_blocks = [aws_subnet.public_1.cidr_block]
+  }
+
 
   egress {
     from_port   = 0

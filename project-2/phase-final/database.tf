@@ -38,6 +38,8 @@ resource "aws_db_instance" "main" {
 # === Secrets Manager ===
 resource "aws_secretsmanager_secret" "db_credentials" {
   name = "${var.naming_prefix}db-secret"
+  recovery_window_in_days = 0 # This will force-delete on 'terraform destroy', do not use in production
+  description = "Database credentials for the RDS instance"
 }
 
 resource "aws_secretsmanager_secret_version" "db_credentials" {

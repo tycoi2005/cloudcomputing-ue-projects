@@ -81,7 +81,7 @@ resource "aws_launch_template" "web" {
 resource "aws_autoscaling_group" "main" {
   name                      = "${var.naming_prefix}asg"
   desired_capacity          = 2
-  max_size                  = 4
+  max_size                  = 5
   min_size                  = 2
   health_check_grace_period = 300
   health_check_type         = "ELB"
@@ -103,7 +103,7 @@ resource "aws_autoscaling_policy" "cpu_scaling" {
     predefined_metric_specification {
       predefined_metric_type = "ASGAverageCPUUtilization"
     }
-    target_value = 50.0
+    target_value = 20.0
   }
 }
 
@@ -115,6 +115,12 @@ resource "aws_cloud9_environment_ec2" "dev" {
   subnet_id     = aws_subnet.public_1.id
 
   image_id      = "amazonlinux-2-x86_64"
-  connection_type = "CONNECT_SSH"
+#  connection_type = "CONNECT_SSH"
+#  connection_type             = "CONNECT_SSM"
+  automatic_stop_time_minutes = 0 # Disable automatic stop
 
+  tags = {
+    Environment = "dev"
+    Project     = "WebApp-Final"
+  }
 }

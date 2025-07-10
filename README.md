@@ -52,6 +52,8 @@ $ terraform destroy -auto-approve
 
 ### Architecture
 
+![Project 2 architecture](./project-2/project2Architecture.jpeg)
+
 ### Cost estimation
 
 [Cost estimation](https://calculator.aws/#/estimate?id=b991e75e631ef828c926314defb5e1135c86cb83)
@@ -101,6 +103,9 @@ aws ec2 reboot-instances --instance-ids i-xxx
 ```
 
 ### Connect to cloud9
+
+- Assign LabRole to cloud9
+- Restart instance
 
 ```
 aws ssm start-session --target i-xxx
