@@ -160,6 +160,7 @@ Percentage of requests served within a certain time
 ```
 loadtest -n 1000000 -c 100 -k http://tf-pj2-p4-alb-1603761629.us-east-1.elb.amazonaws.com
 ```
+![Load test result](./project-2/phrase4/loadtestresult.png)
 
 # Useful command
 
