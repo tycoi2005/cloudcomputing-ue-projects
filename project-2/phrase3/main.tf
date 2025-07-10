@@ -68,6 +68,21 @@ resource "aws_db_subnet_group" "main" {
   }
 }
 
+resource "aws_db_parameter_group" "main" {
+  name        = "${var.naming_prefix}parameter-group"
+  family      = "mysql8.0"
+  description = "Custom parameter group with higher connection limit"
+
+  parameter {
+    name  = "max_connections"
+    value = "200" # A much higher value
+  }
+
+  tags = {
+    Name = "${var.naming_prefix}parameter-group"
+  }
+}
+
 # === RDS Instance ===
 resource "aws_db_instance" "mysql" {
   identifier             = "${var.naming_prefix}app-db" # Use prefix for unique identifier
@@ -78,6 +93,9 @@ resource "aws_db_instance" "mysql" {
   db_name                = var.db_name
   db_subnet_group_name   = aws_db_subnet_group.main.name
   vpc_security_group_ids = [aws_security_group.db_sg.id] # CORRECT: Use the new, secure DB security group
+
+  parameter_group_name   = aws_db_parameter_group.main.name
+  
   username               = var.db_user
   password               = var.db_password
   skip_final_snapshot    = true
