@@ -132,3 +132,20 @@ npm install -g loadtest
 ```
 loadtest --rps 1000  -c 500 -k <<ELB URL>>
 ```
+
+# Useful command
+
+view log
+```
+tail -f /var/log/cloud-init.log -n 100
+
+tail -f /var/log/cloud-init-output.log
+```
+
+kill process
+```
+sudo lsof -i :80
+
+sudo kill -9 <PID>
+
+```

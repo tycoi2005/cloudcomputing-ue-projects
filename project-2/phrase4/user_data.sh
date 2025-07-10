@@ -1,5 +1,3 @@
-# phase4/user_data.sh
-
 #!/bin/bash -xe
 
 # Set environment variables for the application and AWS SDK
@@ -17,9 +15,9 @@ apt-get install -y nodejs unzip wget npm mysql-client
 # Download and prepare application code
 wget https://aws-tc-largeobjects.s3.us-west-2.amazonaws.com/CUR-TF-200-ACCAP1-1-91571/1-lab-capstone-project-1/code.zip -P /home/ubuntu
 cd /home/ubuntu
-unzip code.zip
+unzip code.zip -x "resources/codebase_partner/node_modules/*"
 cd resources/codebase_partner
-npm install >> $LOG_FILE 2>&1
+npm install aws aws-sdk >> $LOG_FILE 2>&1
 
 # This section modifies the application's source code to use the secret ARN
 CONFIG_FILE="app/config/config.js"
