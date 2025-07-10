@@ -54,6 +54,8 @@ $ terraform destroy -auto-approve
 
 ### Cost estimation
 
+[Cost estimation](https://calculator.aws/#/estimate?id=b991e75e631ef828c926314defb5e1135c86cb83)
+
 ## Project 2 - Phrase 2
 
 ```
