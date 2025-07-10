@@ -18,3 +18,13 @@ output "new_web_server_public_ip" {
   description = "Public IP of the new web server"
   value       = aws_instance.web.public_ip
 }
+
+output "db_sg_id" {
+  description = "The ID of the security group for the RDS database."
+  value       = aws_security_group.db_sg.id
+}
+
+output "lab_instance_profile_name" {
+  description = "The name of the IAM instance profile used by the web server."
+  value       = var.lab_instance_profile_name
+}
