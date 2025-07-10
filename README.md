@@ -9,7 +9,7 @@ Install terraform https://developer.hashicorp.com/terraform/tutorials/aws-get-st
 
 ### Architecture
 
-![ Architecutre Project 1](./project-1/architectures/Project1CloudComputing.jpg)
+![ Architecutre Project 1](./project-1/architectures/Project1CloudComputing_v2.png)
 
 ### Terraform
 ```
@@ -130,7 +130,35 @@ npm install -g loadtest
 ```
 
 ```
-loadtest --rps 1000  -c 500 -k <<ELB URL>>
+loadtest --rps 1000  -c 500 -k http://tf-pj2-p4-alb-1603761629.us-east-1.elb.amazonaws.com/students
+
+Target URL:          http://tf-pj2-p4-alb-1603761629.us-east-1.elb.amazonaws.com
+Max time (s):        10
+Target rps:          1000
+Concurrent clients:  481
+Running on cores:    5
+Agent:               keepalive
+
+Completed requests:  9730
+Total errors:        0
+Total time:          10.015 s
+Mean latency:        220.2 ms
+Effective rps:       972
+
+Percentage of requests served within a certain time
+  50%      194 ms
+  90%      330 ms
+  95%      386 ms
+  99%      761 ms
+ 100%      2499 ms (longest request)
+
+```
+
+-> Database died.
+
+
+```
+loadtest -n 1000000 -c 100 -k http://tf-pj2-p4-alb-1603761629.us-east-1.elb.amazonaws.com
 ```
 
 # Useful command
