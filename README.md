@@ -66,7 +66,7 @@ $ terraform apply -auto-approve
 
 Open website:
 
-[Web IP: http://52.21.170.174](http://52.21.170.174)
+[Web IP: http://54.175.153.228](http://54.175.153.228)
 
 Test/add serveral student
 
@@ -130,6 +130,19 @@ $ mysql -h tf-pj2-ph3-app-db.c3ousaeg01v3.us-east-1.rds.amazonaws.com -u nodeapp
 Enter password:
 ```
 
+
+Open website:
+
+[Web IP: http://52.55.238.20](http://52.55.238.20)
+
+## Project 2 - Phrase 4
+
+```
+$ terraform apply -auto-approve
+```
+
+[Web http://tf-pj2-p4-alb-1603761629.us-east-1.elb.amazonaws.com](http://tf-pj2-p4-alb-1603761629.us-east-1.elb.amazonaws.com)
+
 ### Load test
 
 ```
@@ -185,3 +198,12 @@ sudo lsof -i :80
 sudo kill -9 <PID>
 
 ```
+
+# Merge all in final
+
+
+```
+$ terraform apply -auto-approve
+```
+
+[Web http://tf-pj2-final-alb-2052441796.us-east-1.elb.amazonaws.com](http://tf-pj2-final-alb-2052441796.us-east-1.elb.amazonaws.com)
